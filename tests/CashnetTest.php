@@ -32,4 +32,18 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $this->assertEquals(false, $getPriceResponse);
   }
 
+  public function testValidatePositivePrice()
+  {
+    // Arrange
+    $cf = new CashnetFactory();
+    $price = -21.34;
+
+    // Act
+    $setPriceResponse = $cf->setPrice($price);
+    $getPriceResponse = $cf->getPrice();
+
+    // Assert
+    $this->assertEquals(false, $setPriceResponse);
+    $this->assertEquals(false, $getPriceResponse);
+  }
 }

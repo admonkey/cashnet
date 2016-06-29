@@ -30,6 +30,7 @@ class CashnetFactory
   {
     // validate
     if (!is_numeric($price)) return false;
+    if ($price <= 0) return false;
 
     $this->price = $price;
     return true;
