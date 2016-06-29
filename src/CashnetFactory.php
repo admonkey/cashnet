@@ -28,6 +28,9 @@ class CashnetFactory
 
   public function setPrice($price)
   {
+    // validate
+    if (!is_numeric($price)) return false;
+
     $this->price = $price;
     return true;
   }
