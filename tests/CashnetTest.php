@@ -107,38 +107,30 @@ class CashnetTest extends PHPUnit_Framework_TestCase
 
   /**
     * @depends testSetPrice
+    * @dataProvider getInvalidPriceData
     */
-  public function testValidateNumericPrice()
+  public function testValidatePrice($value)
   {
-    // Arrange
     $cf = new CashnetFactory();
-    $price = 'not a number';
 
-    // Act
-    $setPriceResponse = $cf->setPrice($price);
-    $getPriceResponse = $cf->getPrice();
-
-    // Assert
-    $this->assertSame(false, $setPriceResponse);
-    $this->assertSame(false, $getPriceResponse);
+    $this->assertFalse($cf->setPrice($value));
+    $this->assertFalse($cf->getPrice());
   }
 
-  /**
-    * @depends testSetPrice
-    */
-  public function testValidatePositivePrice()
+  public function getInvalidPriceData()
   {
-    // Arrange
-    $cf = new CashnetFactory();
-    $price = -21.34;
-
-    // Act
-    $setPriceResponse = $cf->setPrice($price);
-    $getPriceResponse = $cf->getPrice();
-
-    // Assert
-    $this->assertSame(false, $setPriceResponse);
-    $this->assertSame(false, $getPriceResponse);
+    return [
+      [null],
+      ['not a number'],
+      [0],
+      [''],
+      [-24],
+      [-12.12],
+      [true],
+      [false],
+      [array('key' => 'value')],
+      [(object) 'value']
+    ];
   }
 
 }
