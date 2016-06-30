@@ -105,6 +105,18 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $this->assertSame($value, $getResponse);
   }
 
+  /**
+    * @depends testSetItemcode
+    * @dataProvider getInvalidStringData
+    */
+  public function testValidateItemcode($value)
+  {
+    $cf = new CashnetFactory();
+
+    $this->assertFalse($cf->setItemcode($value));
+    $this->assertFalse($cf->getItemcode());
+  }
+
   public function testSetPrice()
   {
     // Arrange
