@@ -81,7 +81,13 @@ class CashnetFactory
 
   public function setItemcode($itemcode)
   {
-    $this->itemcode = $itemcode;
+    if (
+      !is_string($itemcode) ||
+      empty($itemcode) ||
+      is_numeric($itemcode)
+    )    $this->itemcode = false;
+    else $this->itemcode = $itemcode;
+
     return $this->itemcode;
   }
 
