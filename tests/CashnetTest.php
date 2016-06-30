@@ -13,7 +13,7 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $getPriceResponse = $cf->getPrice();
 
     // Assert
-    $this->assertSame(true, $setPriceResponse);
+    $this->assertSame($price, $setPriceResponse);
     $this->assertSame($price, $getPriceResponse);
   }
 
