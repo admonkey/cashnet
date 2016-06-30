@@ -12,6 +12,12 @@ class CashnetFactory
   getPrice() numeric or false
   setPrice($price) boolean
 
+  //
+  // PRIVATE FUNCTIONS
+  //
+
+  requiredFieldsSet() boolean
+
 */
 
   private $price;
@@ -38,6 +44,15 @@ class CashnetFactory
 
     $this->price = $price;
     return true;
+  }
+
+  //
+  // PRIVATE FUNCTIONS
+  //
+
+  private function requiredFieldsSet()
+  {
+    if ($this->price === false) return false;
   }
 
 }
