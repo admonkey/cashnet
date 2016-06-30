@@ -3,11 +3,11 @@ class CashnetFactory
 {
 
 /*
-  --
-  -- PUBLIC METHODS
-  --
-  -- functionName($parameters = DEFAULTS) returns
-  --
+  //
+  // PUBLIC METHODS
+  //
+  // functionName($parameters = DEFAULTS) returns
+  //
 
   getPrice() numeric or false
   setPrice($price) boolean
@@ -15,6 +15,10 @@ class CashnetFactory
 */
 
   private $price;
+
+  //
+  // PUBLIC METHODS
+  //
 
   function __construct()
   {
