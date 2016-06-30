@@ -26,9 +26,11 @@ class CashnetFactory
   // PUBLIC METHODS
   //
 
-  function __construct()
+  function __construct(
+    $price = false
+  )
   {
-    $this->price = false;
+    $this->setPrice($price);
   }
 
   public function getPrice()
@@ -39,11 +41,16 @@ class CashnetFactory
   public function setPrice($price)
   {
     // validate
-    if (!is_numeric($price)) return false;
-    if ($price <= 0) return false;
-
-    $this->price = $price;
-    return true;
+    if (
+      !is_numeric($price) ||
+      $price <= 0
+    ) {
+      $this->price = false;
+      return false;
+    } else {
+      $this->price = $price;
+      return true;
+    }
   }
 
   //
@@ -53,6 +60,7 @@ class CashnetFactory
   private function requiredFieldsSet()
   {
     if ($this->price === false) return false;
+    return true;
   }
 
 }
