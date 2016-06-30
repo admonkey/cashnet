@@ -9,18 +9,14 @@ class CashnetFactory
   // functionName($parameters = DEFAULTS) returns
   //
 
+  __construct($store = FALSE, $itemcode = FALSE, $price = FALSE)
+  requiredFieldsSet() boolean
   getStore() $store or false
   setStore($store) $store or false
   getItemcode() $itemcode or false
   setItemcode($itemcode) $itemcode or false
   getPrice() numeric or false
   setPrice($price) numeric or false
-
-  //
-  // PRIVATE FUNCTIONS
-  //
-
-  requiredFieldsSet() boolean
 
 */
 
@@ -42,6 +38,15 @@ class CashnetFactory
     $this->itemcode = $itemcode;
     $this->setPrice($price);
   }
+
+  public function requiredFieldsSet()
+  {
+    if ($this->store === false) return false;
+    if ($this->itemcode === false) return false;
+    if ($this->price === false) return false;
+    return true;
+  }
+
 
   public function getStore()
   {
@@ -83,18 +88,6 @@ class CashnetFactory
     }
 
     return $this->price;
-  }
-
-  //
-  // PRIVATE FUNCTIONS
-  //
-
-  private function requiredFieldsSet()
-  {
-    if ($this->store === false) return false;
-    if ($this->itemcode === false) return false;
-    if ($this->price === false) return false;
-    return true;
   }
 
 }
