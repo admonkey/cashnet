@@ -2,6 +2,21 @@
 class CashnetTest extends PHPUnit_Framework_TestCase
 {
 
+  public function testSetStore()
+  {
+    // Arrange
+    $cf = new CashnetFactory();
+    $store = 'CASHNET-STORE';
+
+    // Act
+    $setStoreResponse = $cf->setStore($store);
+    $getStoreResponse = $cf->getStore();
+
+    // Assert
+    $this->assertSame($store, $setStoreResponse);
+    $this->assertSame($store, $getStoreResponse);
+  }
+
   public function testSetPrice()
   {
     // Arrange
