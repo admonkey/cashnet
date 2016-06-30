@@ -62,7 +62,7 @@ class CashnetTest extends PHPUnit_Framework_TestCase
 
   /**
     * @depends testSetStore
-    * @dataProvider getInvalidStoreData
+    * @dataProvider getInvalidStringData
     */
   public function testValidateStore($value)
   {
@@ -72,7 +72,7 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $this->assertFalse($cf->getStore());
   }
 
-  public function getInvalidStoreData()
+  public function getInvalidStringData()
   {
     return [
       [null],
