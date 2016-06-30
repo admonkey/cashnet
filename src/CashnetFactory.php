@@ -10,7 +10,7 @@ class CashnetFactory
   //
 
   getPrice() numeric or false
-  setPrice($price) boolean
+  setPrice($price) numeric or false
 
   //
   // PRIVATE FUNCTIONS
@@ -46,11 +46,11 @@ class CashnetFactory
       $price <= 0
     ) {
       $this->price = false;
-      return false;
     } else {
       $this->price = $price;
-      return true;
     }
+
+    return $this->price;
   }
 
   //
