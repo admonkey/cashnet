@@ -90,6 +90,21 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     ];
   }
 
+  public function testSetItemcode()
+  {
+    // Arrange
+    $cf = new CashnetFactory();
+    $value = 'ITEMCODE';
+
+    // Act
+    $setResponse = $cf->setItemcode($value);
+    $getResponse = $cf->getItemcode();
+
+    // Assert
+    $this->assertSame($value, $setResponse);
+    $this->assertSame($value, $getResponse);
+  }
+
   public function testSetPrice()
   {
     // Arrange
