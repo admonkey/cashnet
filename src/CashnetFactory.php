@@ -64,10 +64,12 @@ class CashnetFactory
 
   public function setStore($store)
   {
-    if (is_string($store))
-      $this->store = $store;
-    else
-      $this->store = false;
+    if (
+      !is_string($store) ||
+      empty($store)
+    )    $this->store = false;
+    else $this->store = $store;
+
     return $this->store;
   }
 
