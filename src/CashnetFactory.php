@@ -66,7 +66,8 @@ class CashnetFactory
   {
     if (
       !is_string($store) ||
-      empty($store)
+      empty($store) ||
+      is_numeric($store)
     )    $this->store = false;
     else $this->store = $store;
 

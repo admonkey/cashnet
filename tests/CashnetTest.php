@@ -82,6 +82,7 @@ class CashnetTest extends PHPUnit_Framework_TestCase
       [21.21],
       [-24],
       [-12.12],
+      ['123'],
       [true],
       [false],
       [array('key' => 'value')],
