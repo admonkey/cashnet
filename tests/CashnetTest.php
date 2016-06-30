@@ -13,8 +13,8 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $getPriceResponse = $cf->getPrice();
 
     // Assert
-    $this->assertEquals(true, $setPriceResponse);
-    $this->assertEquals($price, $getPriceResponse);
+    $this->assertSame(true, $setPriceResponse);
+    $this->assertSame($price, $getPriceResponse);
   }
 
   public function testValidateNumericPrice()
@@ -28,8 +28,8 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $getPriceResponse = $cf->getPrice();
 
     // Assert
-    $this->assertEquals(false, $setPriceResponse);
-    $this->assertEquals(false, $getPriceResponse);
+    $this->assertSame(false, $setPriceResponse);
+    $this->assertSame(false, $getPriceResponse);
   }
 
   public function testValidatePositivePrice()
@@ -43,7 +43,8 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $getPriceResponse = $cf->getPrice();
 
     // Assert
-    $this->assertEquals(false, $setPriceResponse);
-    $this->assertEquals(false, $getPriceResponse);
+    $this->assertSame(false, $setPriceResponse);
+    $this->assertSame(false, $getPriceResponse);
   }
+
 }
