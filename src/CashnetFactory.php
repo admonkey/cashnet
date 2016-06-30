@@ -9,7 +9,12 @@ class CashnetFactory
   // functionName($parameters = DEFAULTS) returns
   //
 
-  __construct($store = FALSE, $itemcode = FALSE, $price = FALSE)
+  __construct($data = NULL)
+    $data = array(
+      'store' => $store,
+      'itemcode' => $itemcode,
+      'price' => $price
+    )
   requiredFieldsSet() boolean
   getStore() $store or false
   setStore($store) $store or false
@@ -28,15 +33,19 @@ class CashnetFactory
   // PUBLIC METHODS
   //
 
-  function __construct(
-    $store = false,
-    $itemcode = false,
-    $price = false
-  )
+  function __construct($data = null)
   {
-    $this->store = $store;
-    $this->itemcode = $itemcode;
-    $this->setPrice($price);
+    if(isset($data['store']))
+      $this->setStore($data['store']);
+    else $this->store = false;
+
+    if(isset($data['itemcode']))
+      $this->setItemcode($data['itemcode']);
+    else $this->itemcode = false;
+
+    if(isset($data['price']))
+      $this->setPrice($data['price']);
+    else $this->price = false;
   }
 
   public function requiredFieldsSet()
