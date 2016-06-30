@@ -32,6 +32,9 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $this->assertSame($price, $getPriceResponse);
   }
 
+  /**
+    * @depends testSetPrice
+    */
   public function testValidateNumericPrice()
   {
     // Arrange
@@ -47,6 +50,9 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $this->assertSame(false, $getPriceResponse);
   }
 
+  /**
+    * @depends testSetPrice
+    */
   public function testValidatePositivePrice()
   {
     // Arrange
