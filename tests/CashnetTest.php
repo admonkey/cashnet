@@ -165,13 +165,8 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     * @testdox Generate URL
     * @dataProvider getUrlData
     */
-  public function testGenerateURL($store, $itemcode, $price, $url)
+  public function testGenerateURL($data, $url)
   {
-    $data = [
-      'store' => $store,
-      'itemcode' => $itemcode,
-      'price' => $price
-    ];
     $cf = new CashnetFactory($data);
 
     $this->assertSame($url, $cf->getURL());
@@ -180,8 +175,14 @@ class CashnetTest extends PHPUnit_Framework_TestCase
   public function getUrlData()
   {
     return [
-      ['CASHNET-STORE', 'ITEMCODE', 42.21,
-       'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21']
+      'Minimum Data' => [
+        'data' => [
+          'store' => 'CASHNET-STORE',
+          'itemcode' => 'ITEMCODE',
+          'price' => 42.21
+        ],
+        'url' => 'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21'
+      ]
     ];
   }
 
