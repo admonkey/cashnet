@@ -37,16 +37,16 @@ class CashnetFactory
   function __construct($data = null)
   {
     if(isset($data['store']))
-      $this->setStore($data['store']);
-    else $this->store = false;
+         $this->setStore($data['store']);
+    else $this->setStore(false);
 
     if(isset($data['itemcode']))
-      $this->setItemcode($data['itemcode']);
-    else $this->itemcode = false;
+         $this->setItemcode($data['itemcode']);
+    else $this->setItemcode(false);
 
     if(isset($data['price']))
-      $this->setPrice($data['price']);
-    else $this->price = false;
+         $this->setPrice($data['price']);
+    else $this->setPrice(false);
   }
 
   public function requiredFieldsSet()
