@@ -161,13 +161,28 @@ class CashnetTest extends PHPUnit_Framework_TestCase
   }
 
   /**
+    * @depends testCompleteConstructor
     * @testdox Generate URL
+    * @dataProvider getUrlData
     */
-  public function testGenerateURL()
+  public function testGenerateURL($store, $itemcode, $price, $url)
   {
-    $cf = new CashnetFactory();
+    $data = [
+      'store' => $store,
+      'itemcode' => $itemcode,
+      'price' => $price
+    ];
+    $cf = new CashnetFactory($data);
 
-    $this->assertTrue($cf->getURL());
+    $this->assertSame($url, $cf->getURL());
+  }
+
+  public function getUrlData()
+  {
+    return [
+      ['CASHNET-STORE', 'ITEMCODE', 42.21,
+       'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21']
+    ];
   }
 
 }
