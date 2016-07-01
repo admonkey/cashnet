@@ -13,7 +13,7 @@ class CashnetFactory
     $data = array(
       'store' => $store,
       'itemcode' => $itemcode,
-      'price' => $price
+      'amount' => $amount
     )
 
   requiredFieldsSet() boolean
@@ -24,8 +24,8 @@ class CashnetFactory
   setStore($store) $store or false
   getItemcode() $itemcode or false
   setItemcode($itemcode) $itemcode or false
-  getPrice() numeric or false
-  setPrice($price) numeric or false
+  getAmount() numeric or false
+  setAmount($amount) numeric or false
 
   getData() $data or false
   setData($data) $data or false
@@ -47,7 +47,7 @@ class CashnetFactory
   {
     if ($this->getStore() === false) return false;
     if ($this->getItemcode() === false) return false;
-    if ($this->getPrice() === false) return false;
+    if ($this->getAmount() === false) return false;
     return true;
   }
 
@@ -58,10 +58,8 @@ class CashnetFactory
     $url  = 'https://commerce.cashnet.com/';
     $url .= rawurlencode($this->getStore()) . '?';
 
-    $data = [
-      'itemcode' => $this->getItemcode(),
-      'amount' => $this->getPrice()
-    ];
+    $data = $this->data;
+    unset($data['store']);
 
     return $url . http_build_query($data);
   }
@@ -100,24 +98,24 @@ class CashnetFactory
     return $this->data['itemcode'];
   }
 
-  public function getPrice()
+  public function getAmount()
   {
-    return $this->data['price'];
+    return $this->data['amount'];
   }
 
-  public function setPrice($price)
+  public function setAmount($amount)
   {
     // validate
     if (
-      !is_numeric($price) ||
-      $price <= 0
+      !is_numeric($amount) ||
+      $amount <= 0
     ) {
-      $this->data['price'] = false;
+      $this->data['amount'] = false;
     } else {
-      $this->data['price'] = $price;
+      $this->data['amount'] = $amount;
     }
 
-    return $this->data['price'];
+    return $this->data['amount'];
   }
 
   public function getData()
@@ -129,7 +127,7 @@ class CashnetFactory
   {
     $data['store'] = $this->setStore(@$data['store']);
     $data['itemcode'] = $this->setItemcode(@$data['itemcode']);
-    $data['price'] = $this->setPrice(@$data['price']);
+    $data['amount'] = $this->setAmount(@$data['amount']);
 
     return $this->data = $data;
   }

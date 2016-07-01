@@ -7,11 +7,11 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     // Arrange
     $store = 'CASHNET-STORE';
     $itemcode = 'ITEMCODE';
-    $price = 42.42;
+    $amount = 42.42;
     $data = [
       'store' => $store,
       'itemcode' => $itemcode,
-      'price' => $price
+      'amount' => $amount
     ];
 
     // Act
@@ -21,7 +21,7 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $this->assertSame(true, $cf->requiredFieldsSet());
     $this->assertSame($store, $cf->getStore());
     $this->assertSame($itemcode, $cf->getItemcode());
-    $this->assertSame($price, $cf->getPrice());
+    $this->assertSame($amount, $cf->getAmount());
   }
 
   /**
@@ -32,17 +32,17 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     // Arrange
     $store = 'CASHNET-STORE';
     $itemcode = 'ITEMCODE';
-    $price = 42.42;
+    $amount = 42.42;
 
     // Act
-    $cf_nostore = new CashnetFactory(['itemcode'=>$itemcode,'price'=>$price]);
-    $cf_noitemcode = new CashnetFactory(['store'=>$store,'price'=>$price]);
-    $cf_noprice = new CashnetFactory(['store'=>$store,'itemcode'=>$itemcode,]);
+    $cf_nostore = new CashnetFactory(['itemcode'=>$itemcode,'amount'=>$amount]);
+    $cf_noitemcode = new CashnetFactory(['store'=>$store,'amount'=>$amount]);
+    $cf_noamount = new CashnetFactory(['store'=>$store,'itemcode'=>$itemcode,]);
 
     // Assert
     $this->assertSame(false, $cf_nostore->requiredFieldsSet());
     $this->assertSame(false, $cf_noitemcode->requiredFieldsSet());
-    $this->assertSame(false, $cf_noprice->requiredFieldsSet());
+    $this->assertSame(false, $cf_noamount->requiredFieldsSet());
   }
 
   public function testSetStore()
@@ -117,34 +117,34 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $this->assertFalse($cf->getItemcode());
   }
 
-  public function testSetPrice()
+  public function testSetAmount()
   {
     // Arrange
     $cf = new CashnetFactory();
-    $price = 42.42;
+    $amount = 42.42;
 
     // Act
-    $setPriceResponse = $cf->setPrice($price);
-    $getPriceResponse = $cf->getPrice();
+    $setAmountResponse = $cf->setAmount($amount);
+    $getAmountResponse = $cf->getAmount();
 
     // Assert
-    $this->assertSame($price, $setPriceResponse);
-    $this->assertSame($price, $getPriceResponse);
+    $this->assertSame($amount, $setAmountResponse);
+    $this->assertSame($amount, $getAmountResponse);
   }
 
   /**
-    * @depends testSetPrice
-    * @dataProvider getInvalidPriceData
+    * @depends testSetAmount
+    * @dataProvider getInvalidAmountData
     */
-  public function testValidatePrice($value)
+  public function testValidateAmount($value)
   {
     $cf = new CashnetFactory();
 
-    $this->assertFalse($cf->setPrice($value));
-    $this->assertFalse($cf->getPrice());
+    $this->assertFalse($cf->setAmount($value));
+    $this->assertFalse($cf->getAmount());
   }
 
-  public function getInvalidPriceData()
+  public function getInvalidAmountData()
   {
     return [
       [null],
@@ -196,9 +196,18 @@ class CashnetTest extends PHPUnit_Framework_TestCase
         'data' => [
           'store' => 'CASHNET-STORE',
           'itemcode' => 'ITEMCODE',
-          'price' => 42.21
+          'amount' => 42.21
         ],
         'url' => 'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21'
+      ],
+      'Cashnet Globals' => [
+        'data' => [
+          'store' => 'CASHNET-STORE',
+          'itemcode' => 'ITEMCODE',
+          'amount' => 42.21,
+          'CARDNAME_G' => 'John G.'
+        ],
+        'url' => 'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21&CARDNAME_G=John+G.'
       ]
     ];
   }
