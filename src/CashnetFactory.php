@@ -59,7 +59,17 @@ class CashnetFactory
 
   public function getURL()
   {
-    return false;
+    if(!$this->requiredFieldsSet()) return false;
+
+    $url  = 'https://commerce.cashnet.com/';
+    $url .= rawurlencode($this->getStore()) . '?';
+
+    $data = [
+      'itemcode' => $this->getItemcode(),
+      'amount' => $this->getPrice()
+    ];
+
+    return $url . http_build_query($data);
   }
 
   public function getStore()
