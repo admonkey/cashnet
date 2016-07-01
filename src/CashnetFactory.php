@@ -15,8 +15,11 @@ class CashnetFactory
       'itemcode' => $itemcode,
       'price' => $price
     )
+
   requiredFieldsSet() boolean
+
   getURL() URL or false
+
   getStore() $store or false
   setStore($store) $store or false
   getItemcode() $itemcode or false
@@ -24,6 +27,9 @@ class CashnetFactory
   getPrice() numeric or false
   setPrice($price) numeric or false
 
+  getData() $data or false
+  setData($data) $data or false
+    // setData will overwrite all values
 */
 
   private $data;
@@ -34,17 +40,7 @@ class CashnetFactory
 
   function __construct($data = null)
   {
-    if(isset($data['store']))
-         $this->setStore($data['store']);
-    else $this->setStore(false);
-
-    if(isset($data['itemcode']))
-         $this->setItemcode($data['itemcode']);
-    else $this->setItemcode(false);
-
-    if(isset($data['price']))
-         $this->setPrice($data['price']);
-    else $this->setPrice(false);
+    $this->setData($data);
   }
 
   public function requiredFieldsSet()
@@ -122,6 +118,20 @@ class CashnetFactory
     }
 
     return $this->data['price'];
+  }
+
+  public function getData()
+  {
+    return $this->data;
+  }
+
+  public function setData($data)
+  {
+    $data['store'] = $this->setStore(@$data['store']);
+    $data['itemcode'] = $this->setItemcode(@$data['itemcode']);
+    $data['price'] = $this->setPrice(@$data['price']);
+
+    return $this->data = $data;
   }
 
 }

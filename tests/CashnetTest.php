@@ -161,6 +161,23 @@ class CashnetTest extends PHPUnit_Framework_TestCase
   }
 
   /**
+    * @dataProvider getUrlData
+    */
+  public function testSetData($data, $url)
+  {
+    // Arrange
+    $cf = new CashnetFactory();
+
+    // Act
+    $setResponse = $cf->setData($data);
+    $getResponse = $cf->getData();
+
+    // Assert
+    $this->assertSame($data, $setResponse);
+    $this->assertSame($data, $getResponse);
+  }
+
+  /**
     * @depends testCompleteConstructor
     * @testdox Generate URL
     * @dataProvider getUrlData
