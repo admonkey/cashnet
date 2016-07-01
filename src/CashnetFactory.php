@@ -51,9 +51,9 @@ class CashnetFactory
 
   public function requiredFieldsSet()
   {
-    if ($this->store === false) return false;
-    if ($this->itemcode === false) return false;
-    if ($this->price === false) return false;
+    if ($this->getStore() === false) return false;
+    if ($this->getItemcode() === false) return false;
+    if ($this->getPrice() === false) return false;
     return true;
   }
 
