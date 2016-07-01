@@ -160,4 +160,14 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     ];
   }
 
+  /**
+    * @testdox Generate URL
+    */
+  public function testGenerateURL()
+  {
+    $cf = new CashnetFactory();
+
+    $this->assertTrue($cf->getURL());
+  }
+
 }

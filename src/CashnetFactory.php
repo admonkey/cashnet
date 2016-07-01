@@ -16,6 +16,7 @@ class CashnetFactory
       'price' => $price
     )
   requiredFieldsSet() boolean
+  getURL() URL or false
   getStore() $store or false
   setStore($store) $store or false
   getItemcode() $itemcode or false
@@ -56,6 +57,10 @@ class CashnetFactory
     return true;
   }
 
+  public function getURL()
+  {
+    return false;
+  }
 
   public function getStore()
   {
