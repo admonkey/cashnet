@@ -26,9 +26,7 @@ class CashnetFactory
 
 */
 
-  private $store;
-  private $itemcode;
-  private $price;
+  private $data;
 
   //
   // PUBLIC METHODS
@@ -74,7 +72,7 @@ class CashnetFactory
 
   public function getStore()
   {
-    return $this->store;
+    return $this->data['store'];
   }
 
   public function setStore($store)
@@ -83,15 +81,15 @@ class CashnetFactory
       !is_string($store) ||
       empty($store) ||
       is_numeric($store)
-    )    $this->store = false;
-    else $this->store = $store;
+    )    $this->data['store'] = false;
+    else $this->data['store'] = $store;
 
-    return $this->store;
+    return $this->data['store'];
   }
 
   public function getItemcode()
   {
-    return $this->itemcode;
+    return $this->data['itemcode'];
   }
 
   public function setItemcode($itemcode)
@@ -100,15 +98,15 @@ class CashnetFactory
       !is_string($itemcode) ||
       empty($itemcode) ||
       is_numeric($itemcode)
-    )    $this->itemcode = false;
-    else $this->itemcode = $itemcode;
+    )    $this->data['itemcode'] = false;
+    else $this->data['itemcode'] = $itemcode;
 
-    return $this->itemcode;
+    return $this->data['itemcode'];
   }
 
   public function getPrice()
   {
-    return $this->price;
+    return $this->data['price'];
   }
 
   public function setPrice($price)
@@ -118,12 +116,12 @@ class CashnetFactory
       !is_numeric($price) ||
       $price <= 0
     ) {
-      $this->price = false;
+      $this->data['price'] = false;
     } else {
-      $this->price = $price;
+      $this->data['price'] = $price;
     }
 
-    return $this->price;
+    return $this->data['price'];
   }
 
 }
