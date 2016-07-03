@@ -28,6 +28,10 @@ class CashnetFactory
   getItemcode() $itemcode or false
   setItemcode($itemcode) $itemcode or false
 
+  // callback page
+  getSignouturl() URL or false
+  setSignouturl($url) URL or false
+
   // price
   getAmount() numeric or false
   setAmount($amount) numeric or false
