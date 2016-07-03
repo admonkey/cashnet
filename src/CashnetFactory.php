@@ -107,6 +107,21 @@ class CashnetFactory
     return $this->data['itemcode'];
   }
 
+  public function getSignouturl()
+  {
+    return $this->data['signouturl'];
+  }
+
+  public function setSignouturl($url)
+  {
+    // TODO: validate URL
+
+    // TODO: assign URL
+    $this->data['signouturl'] = false;
+
+    return $this->data['signouturl'];
+  }
+
   public function getAmount()
   {
     return $this->data['amount'];
@@ -137,6 +152,7 @@ class CashnetFactory
     $data['store'] = $this->setStore(@$data['store']);
     $data['itemcode'] = $this->setItemcode(@$data['itemcode']);
     $data['amount'] = $this->setAmount(@$data['amount']);
+    $data['signouturl'] = $this->setSignouturl(@$data['signouturl']);
 
     return $this->data = $data;
   }
