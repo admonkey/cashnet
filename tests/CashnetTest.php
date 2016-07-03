@@ -2,26 +2,19 @@
 class CashnetTest extends PHPUnit_Framework_TestCase
 {
 
-  public function testCompleteConstructor()
+  /**
+    * @dataProvider getUrlData
+    */
+  public function testCompleteConstructor($data)
   {
-    // Arrange
-    $store = 'CASHNET-STORE';
-    $itemcode = 'ITEMCODE';
-    $amount = 42.42;
-    $data = [
-      'store' => $store,
-      'itemcode' => $itemcode,
-      'amount' => $amount
-    ];
-
-    // Act
     $cf = new CashnetFactory($data);
 
     // Assert
     $this->assertSame(true, $cf->requiredFieldsSet());
-    $this->assertSame($store, $cf->getStore());
-    $this->assertSame($itemcode, $cf->getItemcode());
-    $this->assertSame($amount, $cf->getAmount());
+    $this->assertSame($data['store'], $cf->getStore());
+    $this->assertSame($data['itemcode'], $cf->getItemcode());
+    $this->assertSame($data['amount'], $cf->getAmount());
+    $this->assertSame($data['signouturl'], $cf->getSignouturl());
   }
 
   /**
@@ -214,18 +207,20 @@ class CashnetTest extends PHPUnit_Framework_TestCase
         'data' => [
           'store' => 'CASHNET-STORE',
           'itemcode' => 'ITEMCODE',
-          'amount' => 42.21
+          'amount' => 42.21,
+          'signouturl' => 'https://localhost/callback.php'
         ],
-        'url' => 'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21'
+        'url' => 'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21&signouturl=https%3A%2F%2Flocalhost%2Fcallback.php'
       ],
       'Cashnet Globals' => [
         'data' => [
           'store' => 'CASHNET-STORE',
           'itemcode' => 'ITEMCODE',
           'amount' => 42.21,
+          'signouturl' => 'https://localhost/callback.php',
           'CARDNAME_G' => 'John G.'
         ],
-        'url' => 'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21&CARDNAME_G=John+G.'
+        'url' => 'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21&signouturl=https%3A%2F%2Flocalhost%2Fcallback.php&CARDNAME_G=John+G.'
       ]
     ];
   }
