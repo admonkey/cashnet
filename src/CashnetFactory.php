@@ -1,4 +1,14 @@
 <?php namespace Puckett\Cashnet;
+use Symfony\Component\Form\Forms;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Translation\Translator;
+use Symfony\Bridge\Twig\Form\TwigRenderer;
+use Symfony\Bridge\Twig\Form\TwigRendererEngine;
+use Symfony\Bridge\Twig\Extension\FormExtension;
+use Symfony\Bridge\Twig\Extension\TranslationExtension;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
+
 class CashnetFactory
 {
 
@@ -39,6 +49,9 @@ class CashnetFactory
   // overwrite all values
   getData() $data or false
   setData($data) $data or false
+
+  // complete missing fields
+  getForm() string (HTML <form>)
 */
 
   private $data;
@@ -157,6 +170,46 @@ class CashnetFactory
     $data['signouturl'] = $this->setSignouturl(@$data['signouturl']);
 
     return $this->data = $data;
+  }
+
+  public function getForm()
+  {
+    // the Twig file that holds all the default markup for rendering forms
+    // this file comes with TwigBridge
+    $defaultFormTheme = 'form_div_layout.html.twig';
+
+    $appVariableReflection = new \ReflectionClass('\Symfony\Bridge\Twig\AppVariable');
+    $vendorTwigBridgeDir = dirname($appVariableReflection->getFileName());
+    // the path to your other templates
+    $viewsDir = realpath(__DIR__.'/../views');
+
+    $twig = new Twig_Environment(new Twig_Loader_Filesystem(array(
+        $viewsDir,
+        $vendorTwigBridgeDir.'/Resources/views/Form',
+    )));
+    $formEngine = new TwigRendererEngine(array($defaultFormTheme));
+
+    $twig->addExtension(
+        new FormExtension(new TwigRenderer($formEngine))
+    );
+
+    $twig->addExtension(
+        new TranslationExtension(new Translator('en'))
+    );
+
+    $formEngine->setEnvironment($twig);
+
+    // create your form factory as normal
+    $formFactory = Forms::createFormFactoryBuilder()
+        ->getFormFactory();
+
+    $form = $formFactory->createBuilder()
+        ->add('task', TextType::class)
+        ->getForm();
+
+    return $twig->render('form.html.twig', array(
+        'form' => $form->createView(),
+    ));
   }
 
 }
