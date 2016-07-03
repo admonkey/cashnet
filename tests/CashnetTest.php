@@ -235,4 +235,26 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     ];
   }
 
+  /**
+    * @depends testCompleteConstructor
+    */
+  public function testGenerateForm()
+  {
+    $data = [
+      'store' => 'CASHNET-STORE',
+      'itemcode' => 'ITEMCODE',
+      'amount' => 42.21,
+      'signouturl' => 'https://localhost/callback.php'
+    ];
+    $form = '<form name="form" method="post">
+    <div id="form"><div><label for="form_store" class="required">Store</label><input type="text" id="form_store" name="form[store]" required="required" value="CASHNET-STORE" /></div><div><label for="form_itemcode" class="required">Itemcode</label><input type="text" id="form_itemcode" name="form[itemcode]" required="required" value="ITEMCODE" /></div><div><label for="form_amount" class="required">Amount</label><input type="text" id="form_amount" name="form[amount]" required="required" value="42.21" /></div><div><label for="form_signouturl" class="required">Signouturl</label><input type="text" id="form_signouturl" name="form[signouturl]" required="required" value="https://localhost/callback.php" /></div></div>
+
+    <input type="submit" />
+</form>
+';
+    $cf = new CashnetFactory($data);
+
+    $this->assertSame($form, $cf->getForm());
+  }
+
 }
