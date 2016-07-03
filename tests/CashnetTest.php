@@ -221,6 +221,16 @@ class CashnetTest extends PHPUnit_Framework_TestCase
           'CARDNAME_G' => 'John G.'
         ],
         'url' => 'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21&signouturl=https%3A%2F%2Flocalhost%2Fcallback.php&CARDNAME_G=John+G.'
+      ],
+      'Pre-Encoded URL' => [
+        'data' => [
+          'store' => 'CASHNET-STORE',
+          'itemcode' => 'ITEMCODE',
+          'amount' => 42.21,
+          'signouturl' => 'https%3A%2F%2Flocalhost%2Fcallback.php',
+          'CARDNAME_G' => 'John G.'
+        ],
+        'url' => 'https://commerce.cashnet.com/CASHNET-STORE?itemcode=ITEMCODE&amount=42.21&signouturl=https%3A%2F%2Flocalhost%2Fcallback.php&CARDNAME_G=John+G.'
       ]
     ];
   }
