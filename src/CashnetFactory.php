@@ -70,6 +70,7 @@ class CashnetFactory
 
     $data = $this->data;
     unset($data['store']);
+    $data['signouturl'] = urldecode($data['signouturl']);
 
     return $url . http_build_query($data);
   }
