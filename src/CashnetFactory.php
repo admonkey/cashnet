@@ -57,6 +57,7 @@ class CashnetFactory
     if ($this->getStore() === false) return false;
     if ($this->getItemcode() === false) return false;
     if ($this->getAmount() === false) return false;
+    if ($this->getSignouturl() === false) return false;
     return true;
   }
 
