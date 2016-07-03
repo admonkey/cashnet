@@ -203,9 +203,13 @@ class CashnetFactory
     $formFactory = Forms::createFormFactoryBuilder()
         ->getFormFactory();
 
-    $form = $formFactory->createBuilder()
-        ->add('task', TextType::class)
-        ->getForm();
+    $formBuilder = $formFactory->createBuilder();
+
+    foreach ($this->data as $key => $value){
+      $formBuilder->add("$key", TextType::class, ['attr' => ['value' => $value]]);
+    }
+
+    $form = $formBuilder->getForm();
 
     return $twig->render('form.html.twig', array(
         'form' => $form->createView(),
