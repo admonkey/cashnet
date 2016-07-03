@@ -16,20 +16,25 @@ class CashnetFactory
       'amount' => $amount
     )
 
+  // validate your data
   requiredFieldsSet() boolean
 
+  // get the cashnet page
   getURL() URL or false
 
+  // manipulate cashnet settings
   getStore() $store or false
   setStore($store) $store or false
   getItemcode() $itemcode or false
   setItemcode($itemcode) $itemcode or false
+
+  // price
   getAmount() numeric or false
   setAmount($amount) numeric or false
 
+  // overwrite all values
   getData() $data or false
   setData($data) $data or false
-    // setData will overwrite all values
 */
 
   private $data;
