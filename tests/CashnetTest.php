@@ -117,6 +117,24 @@ class CashnetTest extends PHPUnit_Framework_TestCase
     $this->assertFalse($cf->getItemcode());
   }
 
+  /**
+    * @testdox Set Signout URL (callback page)
+    */
+  public function testSetSignouturl()
+  {
+    // Arrange
+    $cf = new CashnetFactory();
+    $value = 'https://localhost/callback.php';
+
+    // Act
+    $setResponse = $cf->setSignouturl($value);
+    $getResponse = $cf->getSignouturl();
+
+    // Assert
+    $this->assertSame($value, $setResponse);
+    $this->assertSame($value, $getResponse);
+  }
+
   public function testSetAmount()
   {
     // Arrange
