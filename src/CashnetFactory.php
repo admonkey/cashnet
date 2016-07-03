@@ -118,7 +118,7 @@ class CashnetFactory
     // TODO: validate URL
 
     // TODO: assign URL
-    $this->data['signouturl'] = false;
+    $this->data['signouturl'] = $url;
 
     return $this->data['signouturl'];
   }
