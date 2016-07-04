@@ -1,6 +1,8 @@
 <?php namespace Puckett\Cashnet;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\Translator;
@@ -208,8 +210,18 @@ class CashnetFactory
 
     $formBuilder = $formFactory->createBuilder();
 
-    // TODO: FIX types (amount = number)
-    foreach ($this->data as $key => $value){
+    $data = $this->data;
+
+    $formBuilder->add("amount", MoneyType::class, [
+      'attr' => ['value' => $data['amount']],
+      'currency' => 'USD'
+    ]);
+    unset($data['amount']);
+
+    $formBuilder->add("signouturl", UrlType::class, ['attr' => ['value' => $data['signouturl']]]);
+    unset($data['signouturl']);
+
+    foreach ($data as $key => $value){
       $formBuilder->add("$key", TextType::class, ['attr' => ['value' => $value]]);
     }
 
