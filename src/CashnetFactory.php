@@ -223,8 +223,12 @@ class CashnetFactory
 
         $cf = new CashnetFactory($form->getData());
 
-        if($cf->requiredFieldsSet())
-          return $cf->getURL();
+        if($cf->requiredFieldsSet()){
+          return $twig->render('url.html.twig', array(
+            'url' => $cf->getURL(),
+            'data' => $cf->getData()
+          ));
+        }
     }
 
     return $twig->render('form.html.twig', array(
