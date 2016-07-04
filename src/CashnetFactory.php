@@ -1,6 +1,8 @@
 <?php namespace Puckett\Cashnet;
 use Symfony\Component\Form\Forms;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\Translator;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;
@@ -201,15 +203,29 @@ class CashnetFactory
 
     // create your form factory as normal
     $formFactory = Forms::createFormFactoryBuilder()
+        ->addExtension(new HttpFoundationExtension())
         ->getFormFactory();
 
     $formBuilder = $formFactory->createBuilder();
 
+    // TODO: FIX types (amount = number)
     foreach ($this->data as $key => $value){
       $formBuilder->add("$key", TextType::class, ['attr' => ['value' => $value]]);
     }
 
     $form = $formBuilder->getForm();
+
+    $request = Request::createFromGlobals();
+
+    $form->handleRequest($request);
+
+    if ($form->isValid()) {
+
+        $cf = new CashnetFactory($form->getData());
+
+        if($cf->requiredFieldsSet())
+          return $cf->getURL();
+    }
 
     return $twig->render('form.html.twig', array(
         'form' => $form->createView(),

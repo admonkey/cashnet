@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "90760a2d1831f5bec27e4c07dbea7116",
-    "content-hash": "78abcd294b96246a681f1831e1ca65eb",
+    "hash": "6ec28d88024379971dbe36475e68528e",
+    "content-hash": "1b7ab9e867777db3f4a7732a8a56cf3f",
     "packages": [
         {
             "name": "jeff-puckett/mysql-dtp",
@@ -207,6 +207,59 @@
             "description": "Symfony Form Component",
             "homepage": "https://symfony.com",
             "time": "2016-06-29 13:38:22"
+        },
+        {
+            "name": "symfony/http-foundation",
+            "version": "v3.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/http-foundation.git",
+                "reference": "6b5a3764c5b0ce1f0ec3b8be5bba969122a78cfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/6b5a3764c5b0ce1f0ec3b8be5bba969122a78cfc",
+                "reference": "6b5a3764c5b0ce1f0ec3b8be5bba969122a78cfc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "symfony/polyfill-mbstring": "~1.1"
+            },
+            "require-dev": {
+                "symfony/expression-language": "~2.8|~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\HttpFoundation\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony HttpFoundation Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-06-29 07:02:31"
         },
         {
             "name": "symfony/inflector",
