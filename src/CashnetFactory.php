@@ -4,8 +4,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension;
+use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Validator\Validation;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;
 use Symfony\Bridge\Twig\Extension\FormExtension;
@@ -203,26 +205,27 @@ class CashnetFactory
 
     $formEngine->setEnvironment($twig);
 
+    // Set up the Validator component
+    $validator = Validation::createValidator();
+
     // create your form factory as normal
     $formFactory = Forms::createFormFactoryBuilder()
         ->addExtension(new HttpFoundationExtension())
+        ->addExtension(new ValidatorExtension($validator))
         ->getFormFactory();
 
     $formBuilder = $formFactory->createBuilder();
 
     $data = $this->data;
 
-    $formBuilder->add("amount", MoneyType::class, [
-      'currency' => 'USD',
-      'error_bubbling' => true
-    ]);
+    $formBuilder->add("amount", MoneyType::class, ['currency' => 'USD']);
     unset($data['amount']);
 
-    $formBuilder->add("signouturl", UrlType::class, ['attr' => ['value' => $data['signouturl']], 'error_bubbling' => true]);
+    $formBuilder->add("signouturl", UrlType::class, ['attr' => ['value' => $data['signouturl']]]);
     unset($data['signouturl']);
 
     foreach ($data as $key => $value){
-      $formBuilder->add("$key", TextType::class, ['attr' => ['value' => $value], 'error_bubbling' => true]);
+      $formBuilder->add("$key", TextType::class, ['attr' => ['value' => $value]]);
     }
 
     $form = $formBuilder->getForm();
@@ -242,8 +245,6 @@ class CashnetFactory
           ));
         }
     }
-
-    $form->getErrors(true);
 
     return $twig->render('form.html.twig', array(
         'form' => $form->createView(),
