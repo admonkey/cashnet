@@ -213,16 +213,16 @@ class CashnetFactory
     $data = $this->data;
 
     $formBuilder->add("amount", MoneyType::class, [
-      'attr' => ['value' => $data['amount']],
-      'currency' => 'USD'
+      'currency' => 'USD',
+      'error_bubbling' => true
     ]);
     unset($data['amount']);
 
-    $formBuilder->add("signouturl", UrlType::class, ['attr' => ['value' => $data['signouturl']]]);
+    $formBuilder->add("signouturl", UrlType::class, ['attr' => ['value' => $data['signouturl']], 'error_bubbling' => true]);
     unset($data['signouturl']);
 
     foreach ($data as $key => $value){
-      $formBuilder->add("$key", TextType::class, ['attr' => ['value' => $value]]);
+      $formBuilder->add("$key", TextType::class, ['attr' => ['value' => $value], 'error_bubbling' => true]);
     }
 
     $form = $formBuilder->getForm();
@@ -242,6 +242,8 @@ class CashnetFactory
           ));
         }
     }
+
+    $form->getErrors(true);
 
     return $twig->render('form.html.twig', array(
         'form' => $form->createView(),
