@@ -57,8 +57,8 @@ class CashnetFactory
   getData() $data or false
   setData($data) $data or false
 
-  // complete missing fields
-  getForm() string (HTML <form>)
+  // complete fields
+  getForm($allowOverride = false) string (HTML <form>)
 */
 
   private $data;
@@ -181,7 +181,7 @@ class CashnetFactory
     return $this->data = $data;
   }
 
-  public function getForm()
+  public function getForm($allowOverride = false)
   {
     // the Twig file that holds all the default markup for rendering forms
     // this file comes with TwigBridge
@@ -219,13 +219,25 @@ class CashnetFactory
 
     $data = $this->getData();
 
-    $formBuilder = $formFactory->createBuilder(FormType::class,$data);
+    if ($allowOverride !== true)
+      $data = array_filter($data, function($var){return empty($var);});
 
-    $formBuilder->add("amount", MoneyType::class, ['currency' => 'USD']);
-    unset($data['amount']);
+    $defaults = $data;
 
-    $formBuilder->add("signouturl", UrlType::class);
-    unset($data['signouturl']);
+    if(empty($data['amount']))
+      unset($defaults['amount']);
+
+    $formBuilder = $formFactory->createBuilder(FormType::class,$defaults);
+
+    if (isset($data['amount'])){
+      $formBuilder->add("amount", MoneyType::class, ['currency' => 'USD']);
+      unset($data['amount']);
+    }
+
+    if (isset($data['signouturl'])){
+      $formBuilder->add("signouturl", UrlType::class);
+      unset($data['signouturl']);
+    }
 
     foreach ($data as $key => $value){
       $formBuilder->add("$key", TextType::class);
@@ -239,7 +251,9 @@ class CashnetFactory
 
     if ($form->isValid()) {
 
-        $cf = new CashnetFactory($form->getData());
+        $data = array_merge($this->getData(), $form->getData());
+
+        $cf = new CashnetFactory($data);
 
         if($cf->requiredFieldsSet()){
           return $twig->render('url.html.twig', array(
