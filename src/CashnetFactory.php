@@ -88,7 +88,7 @@ class CashnetFactory
     $url  = 'https://commerce.cashnet.com/';
     $url .= rawurlencode($this->getStore()) . '?';
 
-    $data = $this->data;
+    $data = $this->getData();
     unset($data['store']);
     $data['signouturl'] = urldecode($data['signouturl']);
 
@@ -215,7 +215,7 @@ class CashnetFactory
         ->addExtension(new ValidatorExtension($validator))
         ->getFormFactory();
 
-    $data = $this->data;
+    $data = $this->getData();
 
     $formBuilder = $formFactory->createBuilder(FormType::class,$data);
 
