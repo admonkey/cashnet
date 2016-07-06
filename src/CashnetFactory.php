@@ -60,19 +60,24 @@ class CashnetFactory
 
   // complete fields
   getForm($allowOverride = false) string (HTML <form>)
+
+  createDatabaseTransaction() boolean
 */
 
   private $data;
   private $twig;
   private $formFactory;
   private $request;
+  private $pdoDB;
 
   //
   // PUBLIC METHODS
   //
 
-  function __construct($data = null)
+  function __construct($data = null, $pdo = null)
   {
+    $this->pdoDB = $pdo;
+
     $this->setData($data);
     // the Twig file that holds all the default markup for rendering forms
     // this file comes with TwigBridge
@@ -261,18 +266,25 @@ class CashnetFactory
 
     if ($form->isValid()) {
 
-        $data = array_merge($this->getData(), $form->getData());
+        $this->setData(array_merge($this->getData(), $form->getData()));
 
-        $cf = new CashnetFactory($data);
+        if($this->requiredFieldsSet()){
 
-        if($cf->requiredFieldsSet()){
-          return $cf->getURL(['HTML'=>true]);
+          $this->createDatabaseTransaction();
+
+          return $this->getURL(['HTML'=>true]);
         }
     }
 
     return $this->twig->render('form.html.twig', array(
         'form' => $form->createView(),
     ));
+  }
+
+  public function createDatabaseTransaction(){
+    if (is_null($this->pdoDB)) return false;
+
+    return false;
   }
 
 }
