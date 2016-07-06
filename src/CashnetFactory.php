@@ -37,7 +37,8 @@ class CashnetFactory
   requiredFieldsSet() boolean
 
   // get the cashnet page
-  getURL() URL or false
+  getURL($options = null) URL or false
+    ['HTML' => true] returns HTML fragment
 
   // manipulate cashnet settings
   getStore() $store or false
@@ -119,7 +120,7 @@ class CashnetFactory
     return true;
   }
 
-  public function getURL()
+  public function getURL($options = null)
   {
     if(!$this->requiredFieldsSet()) return false;
 
@@ -130,7 +131,14 @@ class CashnetFactory
     unset($data['store']);
     $data['signouturl'] = urldecode($data['signouturl']);
 
-    return $url . http_build_query($data);
+    $url .= http_build_query($data);
+
+    if (!empty($options['HTML'])) {
+      return $this->twig->render('url.html.twig', array(
+        'url' => $url,
+        'data' => $this->getData()
+      ));
+    } else return $url;
   }
 
   public function getStore()
@@ -258,10 +266,7 @@ class CashnetFactory
         $cf = new CashnetFactory($data);
 
         if($cf->requiredFieldsSet()){
-          return $this->twig->render('url.html.twig', array(
-            'url' => $cf->getURL(),
-            'data' => $cf->getData()
-          ));
+          return $cf->getURL(['HTML'=>true]);
         }
     }
 
