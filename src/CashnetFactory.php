@@ -62,6 +62,9 @@ class CashnetFactory
 */
 
   private $data;
+  private $twig;
+  private $formFactory;
+  private $request;
 
   //
   // PUBLIC METHODS
@@ -70,6 +73,41 @@ class CashnetFactory
   function __construct($data = null)
   {
     $this->setData($data);
+    // the Twig file that holds all the default markup for rendering forms
+    // this file comes with TwigBridge
+    $defaultFormTheme = 'form_div_layout.html.twig';
+
+    $appVariableReflection = new \ReflectionClass('\Symfony\Bridge\Twig\AppVariable');
+    $vendorTwigBridgeDir = dirname($appVariableReflection->getFileName());
+    // the path to your other templates
+    $viewsDir = realpath(__DIR__.'/../views');
+
+    $this->twig = new Twig_Environment(new Twig_Loader_Filesystem(array(
+        $viewsDir,
+        $vendorTwigBridgeDir.'/Resources/views/Form',
+    )));
+    $formEngine = new TwigRendererEngine(array($defaultFormTheme));
+
+    $this->twig->addExtension(
+        new FormExtension(new TwigRenderer($formEngine))
+    );
+
+    $this->twig->addExtension(
+        new TranslationExtension(new Translator('en'))
+    );
+
+    $formEngine->setEnvironment($this->twig);
+
+    // Set up the Validator component
+    $validator = Validation::createValidator();
+
+    // create your form factory as normal
+    $this->formFactory = Forms::createFormFactoryBuilder()
+        ->addExtension(new HttpFoundationExtension())
+        ->addExtension(new ValidatorExtension($validator))
+        ->getFormFactory();
+
+    $this->request = Request::createFromGlobals();
   }
 
   public function requiredFieldsSet()
@@ -183,40 +221,6 @@ class CashnetFactory
 
   public function getForm($allowOverride = false)
   {
-    // the Twig file that holds all the default markup for rendering forms
-    // this file comes with TwigBridge
-    $defaultFormTheme = 'form_div_layout.html.twig';
-
-    $appVariableReflection = new \ReflectionClass('\Symfony\Bridge\Twig\AppVariable');
-    $vendorTwigBridgeDir = dirname($appVariableReflection->getFileName());
-    // the path to your other templates
-    $viewsDir = realpath(__DIR__.'/../views');
-
-    $twig = new Twig_Environment(new Twig_Loader_Filesystem(array(
-        $viewsDir,
-        $vendorTwigBridgeDir.'/Resources/views/Form',
-    )));
-    $formEngine = new TwigRendererEngine(array($defaultFormTheme));
-
-    $twig->addExtension(
-        new FormExtension(new TwigRenderer($formEngine))
-    );
-
-    $twig->addExtension(
-        new TranslationExtension(new Translator('en'))
-    );
-
-    $formEngine->setEnvironment($twig);
-
-    // Set up the Validator component
-    $validator = Validation::createValidator();
-
-    // create your form factory as normal
-    $formFactory = Forms::createFormFactoryBuilder()
-        ->addExtension(new HttpFoundationExtension())
-        ->addExtension(new ValidatorExtension($validator))
-        ->getFormFactory();
-
     $data = $this->getData();
 
     if ($allowOverride !== true)
@@ -227,7 +231,7 @@ class CashnetFactory
     if(empty($data['amount']))
       unset($defaults['amount']);
 
-    $formBuilder = $formFactory->createBuilder(FormType::class,$defaults);
+    $formBuilder = $this->formFactory->createBuilder(FormType::class,$defaults);
 
     if (isset($data['amount'])){
       $formBuilder->add("amount", MoneyType::class, ['currency' => 'USD']);
@@ -245,9 +249,7 @@ class CashnetFactory
 
     $form = $formBuilder->getForm();
 
-    $request = Request::createFromGlobals();
-
-    $form->handleRequest($request);
+    $form->handleRequest($this->request);
 
     if ($form->isValid()) {
 
@@ -256,14 +258,14 @@ class CashnetFactory
         $cf = new CashnetFactory($data);
 
         if($cf->requiredFieldsSet()){
-          return $twig->render('url.html.twig', array(
+          return $this->twig->render('url.html.twig', array(
             'url' => $cf->getURL(),
             'data' => $cf->getData()
           ));
         }
     }
 
-    return $twig->render('form.html.twig', array(
+    return $this->twig->render('form.html.twig', array(
         'form' => $form->createView(),
     ));
   }
