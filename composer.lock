@@ -9,22 +9,22 @@
     "packages": [
         {
             "name": "jeff-puckett/mysql-dtp",
-            "version": "1.1.0",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeff-puckett/mysql-dtp.git",
-                "reference": "9654004bf1d0a7030d023abe603e12f5f9183cca"
+                "reference": "0ffce4c4c6b475f60bea04fd9e06bec047b32a34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeff-puckett/mysql-dtp/zipball/9654004bf1d0a7030d023abe603e12f5f9183cca",
-                "reference": "9654004bf1d0a7030d023abe603e12f5f9183cca",
+                "url": "https://api.github.com/repos/jeff-puckett/mysql-dtp/zipball/0ffce4c4c6b475f60bea04fd9e06bec047b32a34",
+                "reference": "0ffce4c4c6b475f60bea04fd9e06bec047b32a34",
                 "shasum": ""
             },
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "description": "Bash scripts to generate MySQL environments for dev/test/prod and execute a list of SQL scripts.",
-            "time": "2016-06-26 16:06:32"
+            "time": "2016-07-06 23:41:23"
         },
         {
             "name": "paragonie/random_compat",

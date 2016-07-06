@@ -1,0 +1,1 @@
+./vendor/jeff-puckett/mysql-dtp/exec_sql.bash -c ./credentials.local.bash -l ./src/SQL/sql.lst
