@@ -5,9 +5,9 @@
 $data = [
   'store' => 'WCOBTEST',
   'itemcode' => 'WCOB-CAREER',
-  'amount' => 42.219,
-  'signouturl' => 'https://localhost/callback.php',
-  'CARDNAME_G' => ''
+  'amount' => 42.21,
+  'signouturl' => 'https://'.$_SERVER['SERVER_NAME'].$_SERVER['SCRIPT_NAME'],
+  'CARDNAME_G' => 'Sam Walton'
 ];
 
 $database_server   = 'localhost';
@@ -23,7 +23,7 @@ $easysoft          = 'Easysoft ODBC-SQL Server';
 $mysql             = "mysql:host=$database_server;dbname=$database_name;charset=utf8";
 $odbc              = "odbc:Driver=$mssql;Server=$database_server;Database=$database_name";
 
-$pdo_database_connection_string = $odbc;
+$pdo_database_connection_string = $mysql;
 
 // trump or modify with environment credentials
 $credentials_file = __DIR__.'/../credentials.local.inc.php';
@@ -44,5 +44,7 @@ $pdoDB = new PDO($pdo_database_connection_string, $database_username, $database_
 $cf = new CashnetFactory($data, $pdoDB);
 // $cf = new CashnetFactory($data);
 
+$cf->getEmptyCashnetGlobals();
+
 // render form and handle post
-echo $cf->getForm(false);
+echo $cf->getForm(true);

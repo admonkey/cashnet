@@ -9,6 +9,7 @@ PHP class wrapper for basic Cashnet web API
 # Requirements
 
 * PHP >= 5.5.9
+* Encrypted (HTTPS) Connection
 
 The install script uses [wget][3] to download the dependency package manager [Composer v1.1.2][2].
 If you do not have [wget][3], then you will need to [manually download Composer][2]
