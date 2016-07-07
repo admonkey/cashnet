@@ -62,6 +62,9 @@ class CashnetFactory
   getForm($allowOverride = false) string (HTML <form>)
 
   createDatabaseTransaction() boolean
+
+  getEmptyCashnetGlobals() array
+
 */
 
   private $data;
@@ -123,6 +126,17 @@ class CashnetFactory
     if ($this->getAmount() === false) return false;
     if ($this->getSignouturl() === false) return false;
     return true;
+  }
+
+  public function getEmptyCashnetGlobals(){
+    $this->setData(array_merge([
+      'CARDNAME_G' => '',
+      'EMAIL_G' => '',
+      'ADDR_G' => '',
+      'CITY_G' => '',
+      'STATE_G' => '',
+      'ZIP_G' => ''
+    ],$this->getData()));
   }
 
   public function getURL($options = null)
