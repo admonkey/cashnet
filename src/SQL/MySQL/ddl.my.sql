@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `cashnet_transactions` (
   `EMAIL_G` VARCHAR(255)
 );
 
-CREATE TABLE IF NOT EXISTS `cashnet_transactions` (
+CREATE TABLE IF NOT EXISTS `cashnet_lineitems` (
   `lid` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `tid` INT NOT NULL,
   `itemcode` VARCHAR(255),
